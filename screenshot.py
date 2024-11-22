@@ -1,7 +1,5 @@
 from PIL import ImageGrab
 
-
-
 def screenshot():
     screenshot = ImageGrab.grab()
     screenshot.save("screenshot.png")
