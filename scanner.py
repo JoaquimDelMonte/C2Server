@@ -123,9 +123,5 @@ if __name__ == "__main__":
             ports = [21, 22, 80]  # Liste des ports à scanner
             resultat = s_arg(ports)
             print(resultat)
-        case "-po":
-            resultat = p_arg()
-            with open("results.txt", "w") as f:
-                f.write(str(resultat))
         case "-h":
             print("Utilisation : \n-p pour ping les IP\n-s pour scanner les ports\n-po pour enregistrer les résultats")
