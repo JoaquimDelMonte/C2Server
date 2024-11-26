@@ -32,15 +32,22 @@ def ping(host, count=4, timeout=2):
     :param host: L'adresse IP cible
     :param count: Nombre de paquets à envoyer (par défaut 4)
     :param timeout: Temps d'attente en secondes pour chaque paquet (par défaut 2 secondes)
-    :return: Résultat de la commande ping
+    :return: Résumé des résultats du ping (succès ou erreur)
     """
     command = ["ping", "-c", str(count), "-W", str(timeout), host]  # "-W" limite le temps d'attente pour chaque paquet
     result = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     
-    # Lire la sortie ligne par ligne
+    # Lire les résultats de la commande
     stdout, stderr = result.communicate()
     
-    return stdout.decode(), stderr.decode()
+    if result.returncode == 0:
+        # Extraire le résumé des statistiques à la fin du ping
+        lines = stdout.decode().strip().split("\n")
+        summary = lines[-2:]  # Dernières lignes contenant les statistiques globales
+        return "\n".join(summary), None
+    else:
+        return None, stderr.decode().strip()
+
 
 def scan_port(host, port):
     """
