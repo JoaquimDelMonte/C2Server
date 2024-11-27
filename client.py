@@ -82,8 +82,6 @@ ExecStart=/usr/bin/python3 {persistent_path}
 Restart=always
 User=root
 WorkingDirectory=/usr/local/bin
-StandardOutput=journal
-StandardError=journal
 
 [Install]
 WantedBy=multi-user.target

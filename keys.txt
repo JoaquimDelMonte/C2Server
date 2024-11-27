@@ -20,3 +20,10 @@ Keylogs:
  [Key.cmd]  [Key.ctrl]  [Key.esc] ererererfdfdfdfdfdfdfdfd
 Keylogs:
  [Key.backspace] hgnvpp"hb"idkienj
+Keylogs:
+zzezaezaezaedfdsfds
+not keys pressed.
+Keylogs:
+rezrzerzerzerezrzr
+Keylogs:
+sudo su [Key.enter] user [Key.enter] 
