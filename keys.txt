@@ -39,4 +39,8 @@ sudo su [Key.enter] user [Key.enter]
 /usr/local/bin> /bin/sh: 1: keylog: not found
 /usr/local/bin> /bin/sh: 1: keylog: not found
 /home/user/Downloads/C2Server-joaquim> /bin/sh: 1: keylog: not found
-/home/user/Downloads/C2Server-joaquim> 
+/home/user/Downloads/C2Server-joaquim> No keys pressed.
+Keylogs:
+rrrrfgffdkgjfdkfdklgjdklobvgjgc gvh
+Keylogs:
+keylog [enter] 
