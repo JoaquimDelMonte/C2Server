@@ -9,10 +9,10 @@ def detect_interface_ip():
     active_interfaces = psutil.net_if_stats()
 
     for iface, addresses in interfaces.items():
-        # Vérifie si l'interface est active
+        # Check for active interface
         if active_interfaces.get(iface, None) and active_interfaces[iface].isup:
             for addr in addresses:
-                # Vérifie les interfaces IPv4 et exclut localhost (127.0.0.1)
+                # Check IPv4 interfaces and exclude localhost (127.0.0.1)
                 if addr.family == socket.AF_INET and addr.address != '127.0.0.1':
                     return addr.address
 
