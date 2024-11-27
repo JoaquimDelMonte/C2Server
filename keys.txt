@@ -44,3 +44,9 @@ Keylogs:
 rrrrfgffdkgjfdkfdklgjdklobvgjgc gvh
 Keylogs:
 keylog [enter] 
+Keylogs:
+zezez [alt]  [tab] 
+Keylogs:
+user [enter] user [enter] ezeze
+Keylogs:
+ [backspace]  [backspace]  [backspace]  [backspace] s [backspace] systemctl st at [backspace]  [backspace]  [backspace] atus client [enter] 
