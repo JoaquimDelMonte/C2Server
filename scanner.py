@@ -4,7 +4,7 @@ import socket
 import psutil
 
 def detect_interface_ip():
-    """Détecte l'IP locale de l'interface réseau active, excluant 127.0.0.1."""
+    """detect local ip and exclude 127.0.0.1."""
     interfaces = psutil.net_if_addrs()
     active_interfaces = psutil.net_if_stats()
 
@@ -28,22 +28,18 @@ except Exception as e:
 
 def ping(host, count=4, timeout=2):
     """
-    Effectue un ping vers l'adresse IP avec un nombre limité de paquets et un temps d'attente.
-    :param host: L'adresse IP cible
-    :param count: Nombre de paquets à envoyer (par défaut 4)
-    :param timeout: Temps d'attente en secondes pour chaque paquet (par défaut 2 secondes)
-    :return: Résumé des résultats du ping (succès ou erreur)
+    ping target address with a limit ammount of packets
     """
-    command = ["ping", "-c", str(count), "-W", str(timeout), host]  # "-W" limite le temps d'attente pour chaque paquet
+    command = ["ping", "-c", str(count), "-W", str(timeout), host]  # "-W" limit time for each ping and -c limit number of ping
     result = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     
-    # Lire les résultats de la commande
+    # read result
     stdout, stderr = result.communicate()
     
     if result.returncode == 0:
-        # Extraire le résumé des statistiques à la fin du ping
+        # extract result
         lines = stdout.decode().strip().split("\n")
-        summary = lines[-2:]  # Dernières lignes contenant les statistiques globales
+        summary = lines[-2:]
         return "\n".join(summary), None
     else:
         return None, stderr.decode().strip()
@@ -51,10 +47,7 @@ def ping(host, count=4, timeout=2):
 
 def scan_port(host, port):
     """
-    Scanne un port sur l'hôte cible.
-    :param host: Adresse de l'hôte
-    :param port: Port à scanner
-    :return: Résultat de la connexion
+    scan ports on target ip
     """
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         test = s.connect_ex((host, port))
@@ -65,9 +58,7 @@ def scan_port(host, port):
 
 def incremental_ip(ip_parts):
     """
-    Incrémente la dernière partie d'une adresse IP et retourne une nouvelle IP.
-    :param ip_parts: La liste des parties de l'IP
-    :return: La nouvelle adresse IP
+    add 1 to last ip
     """
     integer = int(ip_parts[3])
     integer += 1
@@ -80,10 +71,10 @@ def p_arg():
     Ping des adresses IP incrémentales à partir de l'adresse détectée.
     :return: Résultats des pings
     """
-    ip_parts = cible.split(".")  # Découpe l'adresse IP en parties
-    ip_parts[3] = 1  # Commence à l'adresse suivante
+    ip_parts = cible.split(".")
+    ip_parts[3] = 1
     results = []
-    while int(ip_parts[3]) < 5:  # Incrémente jusqu'à la 5ème adresse
+    while int(ip_parts[3]) < 5:  
         new_ip = incremental_ip(ip_parts)
         print(f"Ping vers : {new_ip}")
         stdout, stderr = ping(new_ip)
@@ -99,10 +90,10 @@ def s_arg(ports):
     :param ports: Liste des ports à scanner
     :return: Résultats du scan des ports
     """
-    ip_parts = cible.split(".")  # Découpe l'adresse IP en parties
-    ip_parts[3] = 1  # Commence à l'adresse suivante
+    ip_parts = cible.split(".")  
+    ip_parts[3] = 1  
     results = []
-    while int(ip_parts[3]) < 5:  # Limite pour éviter des boucles infinies
+    while int(ip_parts[3]) < 5: 
         new_ip = incremental_ip(ip_parts)
         print(f"Scan de ports pour : {new_ip}")
         for port in ports:
@@ -114,13 +105,13 @@ if __name__ == "__main__":
     cible = str(detect_interface_ip())
     test = cible.split(".")
 
-    # Traitement des arguments
+
     match sys.argv[1]:
         case "-p":
             resultat = p_arg()
             print(resultat)
         case "-s":
-            ports = [21, 22, 80]  # Liste des ports à scanner
+            ports = [21, 22, 80] 
             resultat = s_arg(ports)
             print(resultat)
         case "-h":

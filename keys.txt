@@ -2,3 +2,15 @@ Keylogs:
 fdfdvccbvhgjiuy
 Keylogs:
 gfdvbxcvbtreytuyiuyosg
+Aucune frappe enregistrée.
+Aucune frappe enregistrée.
+Keylogs:
+screenshot [Key.enter] n [Key.enter] keylog [Key.enter] 
+Keylogs:
+ [Key.shift] Listen to pressed keys and append to a listinit keylogger in a separate s [Key.backspace] threadszn [Key.backspace]  [Key.backspace] end keys to server [Key.ctrl_l] not keys pressed [Key.ctrl_l]  [Key.backspace] scanner functionunrecognisefd [Key.backspace]  [Key.backspace] d  [Key.backspace]  [Key.backspace]  [Key.backspace]  [Key.backspace]  [Key.backspace] ized [Key.backspace]  [Key.backspace] wrong arguments [Key.backspace]  [Key.left]  [Key.left]  [Key.backspace]  [Key.backspace] o [Key.backspace]  make the script persistent [Key.cmd] bondjour [Key.cmd]  [Key.cmd] keylogs [Key.backspace]  [Key.enter] 
+Keylogs:
+test [Key.backspace]  [Key.backspace]  [Key.backspace]  [Key.backspace] keylog [Key.enter] 
+Aucune frappe enregistrée.
+Aucune frappe enregistrée.
+Keylogs:
+ [Key.alt]  [Key.tab] kggggg
