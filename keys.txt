@@ -27,3 +27,10 @@ Keylogs:
 rezrzerzerzerezrzr
 Keylogs:
 sudo su [Key.enter] user [Key.enter] 
+/bin/sh: 1: keylog: not found
+/home/user/Downloads/C2Server-joaquim> /bin/sh: 1: keylog: not found
+/home/user/Downloads/C2Server-joaquim> /bin/sh: 1: keylog: not found
+/home/user/Downloads/C2Server-joaquim> /bin/sh: 1: keylog: not found
+/usr/local/bin> /bin/sh: 1: keylog: not found
+/usr/local/bin> /bin/sh: 1: keylog: not found
+/home/user/Downloads/C2Server-joaquim> 
