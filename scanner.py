@@ -16,14 +16,13 @@ def detect_interface_ip():
                 if addr.family == socket.AF_INET and addr.address != '127.0.0.1':
                     return addr.address
 
-    raise Exception("Aucune interface réseau valide détectée.")
+    raise Exception("Network interface not detected")
 
-# Ajoutez la détection de l'interface réseau ici
+# Detect network interface
 try:
     cible = detect_interface_ip()
-    print(f"Interface réseau détectée avec IP : {cible}")
 except Exception as e:
-    print(f"Erreur : {e}")
+    continue
     sys.exit(1)
 
 def ping(host, count=4, timeout=2):
@@ -68,34 +67,29 @@ def incremental_ip(ip_parts):
 
 def p_arg():
     """
-    Ping des adresses IP incrémentales à partir de l'adresse détectée.
-    :return: Résultats des pings
+    ping ip on the network
     """
     ip_parts = cible.split(".")
     ip_parts[3] = 1
     results = []
-    while int(ip_parts[3]) < 5:  
+    while int(ip_parts[3]) < 5: #limit to the first 5 ip
         new_ip = incremental_ip(ip_parts)
-        print(f"Ping vers : {new_ip}")
         stdout, stderr = ping(new_ip)
         if stderr:
-            results.append(f"Erreur ping vers {new_ip}: {stderr}")
+            results.append(f"Error ping to {new_ip}: {stderr}")
         else:
-            results.append(f"Réponse ping vers {new_ip}: {stdout}")
+            results.append(f"Response ping to {new_ip}: {stdout}")
     return results
 
 def s_arg(ports):
     """
-    Scan des ports pour une plage d'adresses IP incrémentales.
-    :param ports: Liste des ports à scanner
-    :return: Résultats du scan des ports
+    scan ports on the network
     """
     ip_parts = cible.split(".")  
     ip_parts[3] = 1  
     results = []
-    while int(ip_parts[3]) < 5: 
+    while int(ip_parts[3]) < 5: #limit to the first 5 ip
         new_ip = incremental_ip(ip_parts)
-        print(f"Scan de ports pour : {new_ip}")
         for port in ports:
             result = scan_port(new_ip, port)
             results.append(f"{new_ip}:{port} - {result}")
@@ -109,10 +103,6 @@ if __name__ == "__main__":
     match sys.argv[1]:
         case "-p":
             resultat = p_arg()
-            print(resultat)
         case "-s":
             ports = [21, 22, 80] 
             resultat = s_arg(ports)
-            print(resultat)
-        case "-h":
-            print("Utilisation : \n-p pour ping les IP\n-s pour scanner les ports\n-po pour enregistrer les résultats")

