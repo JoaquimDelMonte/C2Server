@@ -59,3 +59,5 @@ Keylogs:
  [alt] testtest [alt] 
 Keylogs:
 bgghfg
+Keylogs:
+kali [enter] kali [enter] 

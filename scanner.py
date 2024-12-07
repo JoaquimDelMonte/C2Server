@@ -22,7 +22,7 @@ def detect_interface_ip():
 try:
     cible = detect_interface_ip()
 except Exception as e:
-    continue
+    pass
     sys.exit(1)
 
 def ping(host, count=4, timeout=2):
